@@ -1,0 +1,31 @@
+<style>
+.container{
+    margin: 20px;
+}
+table{
+    font-size: 14px;
+}
+</style>
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'students/bootstrap.min.css' %}" />
+<div class = 'container'>
+	<h1>Group Detail</h1>
+	<a href = '{% url 'students:groups' %}'>List of groups </a>
+	    <table class = 'table'>
+	        <tr>
+	            <th>Name</th>
+	            <th>Students</th>
+	        </tr>
+	        <tr>
+	            <td>
+	                {{ group.name }}
+	            </td>
+	            <td>
+	                {% for stud in group.students.all %}
+	                <a href="{% url 'students:detail' stud.id %}">{{ stud.name }}</a>, 
+	                {% endfor %}
+	            </td>
+	        </tr>
+	    </table>
+	</div>

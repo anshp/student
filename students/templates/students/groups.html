@@ -1,0 +1,57 @@
+<style>
+.container{
+    margin: 20px;
+}
+table{
+    font-size: 14px;
+    margin-top: 30px;
+}
+#search{
+    width: 300px;
+    float:left;
+}
+.btn{
+    background-color: #dddddd;
+    color:black;
+    float :left;
+    margin-left: 5px;
+}
+</style>
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'students/bootstrap.min.css' %}" />
+<div class = 'container'>
+<h1>List of Groups</h1>
+<a href = '{% url 'students:index' %}'>List of Students</a>
+ <form action="{% url 'students:groups' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="search" id="search" placeholder="Enter search text" class = 'form-control' value = '{{ search }}'>
+        <input class = 'btn' type="submit" value="Search" />
+        {% if search %}
+        <a class = btn href = '{% url 'students:groups' %}'>Back</a>
+        {% endif %}
+    </form> 
+{% if group_list %}
+
+    <table class = 'table'>
+        <tr>
+            <th>Name</th>
+            <th>Students</th>
+        </tr>
+        {% for group in group_list %}
+        <tr>
+            <td>
+                <a href="{% url 'students:group_detail' group.id %}">{{ group.name }}</a>
+            </td>
+            <td>
+                {% for stud in group.students.all %}
+                <a href="{% url 'students:detail' stud.id %}">{{ stud.name }}</a>, 
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No group data available.</p>
+{% endif %}
+</div>
