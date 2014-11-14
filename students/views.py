@@ -24,10 +24,10 @@ def groups(request):
     if request.method == 'POST':
         group_list = Group.objects.filter(name__startswith=request.POST['search']).order_by('id')[:50]
         context = {'group_list': group_list, 'search' :request.POST['search']}
-    else:
-        group_list = Group.objects.all().order_by('id')[:50]
-        context = {'group_list': group_list}
+        return render(request, 'students/groups.html', context)
     
+    group_list = Group.objects.all().order_by('id')[:50]
+    context = {'group_list': group_list}
     return render(request, 'students/groups.html', context)
 
 def group_detail(request, group_id):
